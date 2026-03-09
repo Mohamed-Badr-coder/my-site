@@ -47,6 +47,11 @@
         --shadow-color: rgba(0, 0, 0, 0.1);
         --header-bg: rgba(255, 255, 255, 0.86);
         --header-scrolled-bg: rgba(255, 255, 255, 0.96);
+        --footer-bg: #e8edf5;
+        --footer-text: #1f2937;
+        --footer-border: rgba(15, 23, 42, 0.16);
+        --hero-start: #334155;
+        --hero-end: #7c3aed;
         --dock-bg: rgba(255, 255, 255, 0.95);
         --dock-border: rgba(15, 23, 42, 0.2);
         --dock-item-bg: rgba(15, 23, 42, 0.08);
@@ -62,6 +67,11 @@
         --shadow-color: rgba(0, 0, 0, 0.3);
         --header-bg: rgba(15, 23, 42, 0.58);
         --header-scrolled-bg: rgba(15, 23, 42, 0.86);
+        --footer-bg: var(--bg-dark);
+        --footer-text: var(--text-dark);
+        --footer-border: var(--card-border);
+        --hero-start: var(--bg-dark);
+        --hero-end: var(--primary-color);
         --dock-bg: rgba(15, 23, 42, 0.75);
         --dock-border: rgba(255, 255, 255, 0.18);
         --dock-item-bg: rgba(255, 255, 255, 0.08);
@@ -148,7 +158,10 @@
         );
         color: #fff;
         box-shadow: 0 4px 15px var(--shadow-color);
-        transition: all var(--transition-fast) var(--ease-in-out);
+        transition:
+          box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+          color 0.22s ease,
+          background-color 0.22s ease;
         position: relative;
         overflow: hidden;
         z-index: 1;
@@ -230,7 +243,10 @@
         cursor: pointer;
         padding: 3px;
         box-shadow: 0 2px 10px var(--shadow-color);
-        transition: all var(--transition-fast) var(--ease-in-out);
+        transition:
+          background-color 0.25s ease,
+          border-color 0.25s ease,
+          box-shadow 0.25s ease;
         z-index: 1000;
       }
       .theme-toggle .toggle-handle {
@@ -259,7 +275,10 @@
         -webkit-backdrop-filter: blur(12px);
         z-index: 900;
         gap: 1rem;
-        transition: all var(--transition-duration) var(--ease-in-out);
+        transition:
+          background-color 0.3s ease,
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
       }
       .floating-dock-item {
         display: flex;
@@ -272,7 +291,10 @@
         color: var(--dock-item-color);
         font-size: 1.5rem;
         text-decoration: none;
-        transition: all var(--transition-fast) var(--ease-in-out);
+        transition:
+          background-color 0.22s ease,
+          color 0.22s ease,
+          box-shadow 0.22s ease;
         position: relative;
         transform-origin: center;
       }
@@ -294,8 +316,10 @@
         top: 0;
         left: 0;
         z-index: 800;
-        padding: 1.5rem 0;
-        transition: all var(--transition-fast) var(--ease-in-out);
+        padding: 0.85rem 0;
+        transition:
+          background-color 0.25s ease,
+          box-shadow 0.25s ease;
         background: var(--header-bg);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
@@ -308,6 +332,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        min-height: 58px;
       }
       .logo {
         font-family: "Space Grotesk", sans-serif;
@@ -315,18 +340,25 @@
         font-weight: 700;
         color: var(--text-color);
         text-decoration: none;
+        line-height: 1;
         transition: color var(--transition-fast) var(--ease-in-out);
       }
       .nav-links {
         list-style: none;
         display: flex;
+        align-items: center;
         gap: 2.5rem;
+      }
+      .nav-links li {
+        display: flex;
+        align-items: center;
       }
       .nav-links a {
         color: var(--text-color);
         text-decoration: none;
         font-weight: 500;
         font-size: 1.05rem;
+        line-height: 1;
         position: relative;
         transition: color var(--transition-fast) var(--ease-in-out);
       }
@@ -352,11 +384,7 @@
         text-align: center;
         position: relative;
         overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          var(--bg-dark),
-          var(--primary-color)
-        );
+        background: linear-gradient(135deg, var(--hero-start), var(--hero-end));
         isolation: isolate;
       }
       .hero::before {
@@ -372,6 +400,10 @@
         opacity: 0.15;
         z-index: -1;
         transform: translateZ(0);
+        transition: opacity 0.3s ease;
+      }
+      [data-theme="light"] .hero::before {
+        opacity: 0.12;
       }
       .hero-content {
         z-index: 10;
@@ -581,15 +613,17 @@
         cursor: pointer;
         font-size: 1.5rem;
         border-radius: 50%;
-        transition: background-color var(--transition-fast) var(--ease-in-out);
+        transition:
+          background-color 0.22s ease,
+          transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
         z-index: 10;
       }
       .carousel-nav-btn:hover {
         background: var(--primary-color);
-        transform: translateY(-50%) scale(1.1);
+        transform: translateY(-50%) scale(1.04);
       }
       .carousel-nav-btn:active {
-        transform: translateY(-50%) scale(var(--active-scale));
+        transform: translateY(-50%) scale(0.98);
         transition-duration: 0.05s;
       }
       .carousel-prev {
@@ -702,11 +736,11 @@
       }
 
       footer {
-        background: var(--bg-dark);
-        color: var(--text-dark);
+        background: var(--footer-bg);
+        color: var(--footer-text);
         padding: 4rem 0;
         text-align: center;
-        border-top: 1px solid var(--card-border);
+        border-top: 1px solid var(--footer-border);
       }
       .footer-content {
         display: flex;
@@ -720,7 +754,7 @@
         font-family: "Space Grotesk", sans-serif;
         font-size: 1.8rem;
         font-weight: 700;
-        color: var(--text-dark);
+        color: var(--footer-text);
         text-decoration: none;
       }
       .footer-links {
@@ -729,7 +763,7 @@
         gap: 2rem;
       }
       .footer-links a {
-        color: var(--text-dark);
+        color: var(--footer-text);
         text-decoration: none;
         font-weight: 400;
         transition: color var(--transition-fast) var(--ease-in-out);
@@ -742,7 +776,7 @@
         gap: 1.5rem;
       }
       .social-icons a {
-        color: var(--text-dark);
+        color: var(--footer-text);
         font-size: 1.5rem;
         transition:
           color var(--transition-fast) var(--ease-in-out),
@@ -755,8 +789,8 @@
       .footer-bottom {
         margin-top: 2rem;
         padding-top: 2rem;
-        border-top: 1px solid var(--card-border);
-        color: rgba(224, 224, 224, 0.75);
+        border-top: 1px solid var(--footer-border);
+        color: color-mix(in srgb, var(--footer-text) 72%, transparent);
       }
 
       @media (max-width: 992px) {
@@ -879,10 +913,10 @@
 
       .stagger-item {
         opacity: 0;
-        transform: translateY(18px);
+        transform: translateY(14px);
         transition:
-          opacity 0.45s ease,
-          transform 0.45s ease;
+          opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
         transition-delay: calc(
           var(--delay, 0) * 50ms
         ); /* Default to 0 if --delay not set */
@@ -930,6 +964,14 @@
       .skeleton-image {
         width: 100%;
         height: 200px; /* Example height */
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
       }
     </style>
   </head>
@@ -1315,7 +1357,6 @@
             }
           });
         }
-        const magneticTargets = document.querySelectorAll(".magnetic-target");
         // Carousel Logic
         const carouselSlides = document.getElementById("carousel-slides");
         const carouselPrevBtn = document.getElementById("carousel-prev");
@@ -1363,7 +1404,6 @@
         class MotionSystem {
           constructor() {
             this.initStaggeredAnimations();
-            this.initReducedHoverEffects();
           }
           initStaggeredAnimations() {
             const observerOptions = {
@@ -1374,33 +1414,14 @@
             const observer = new IntersectionObserver((entries, observer) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                  let delay = 0;
-                  Array.from(entry.target.children).forEach((child, index) => {
-                    if (child.classList.contains("stagger-item")) {
-                      child.style.setProperty("--delay", index);
-                      child.classList.add("visible");
-                    }
-                  });
-                  // Also handle top-level stagger-item that might be the container
-                  if (entry.target.classList.contains("stagger-item")) {
-                    entry.target.classList.add("visible");
-                  }
+                  entry.target.classList.add("visible");
                   observer.unobserve(entry.target);
                 }
               });
             }, observerOptions);
-            // Observe each section, or specific containers that hold stagger-items
-            document.querySelectorAll("section").forEach((section) => {
-              observer.observe(section);
-            });
-            // Also observe individual stagger-items that are not necessarily children of an observed section
+            // Observe only staggered elements for a clean, predictable reveal sequence.
             document.querySelectorAll(".stagger-item").forEach((item) => {
               observer.observe(item);
-            });
-          }
-          initReducedHoverEffects() {
-            magneticTargets.forEach((target) => {
-              target.style.transform = "none";
             });
           }
         }
